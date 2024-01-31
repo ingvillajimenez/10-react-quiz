@@ -11,6 +11,7 @@ const initialState = {
 
   // "loading", "error", "ready", "active", "finished"
   status: "loading",
+  index: 0,
 };
 
 function reducer(state, action) {
@@ -40,7 +41,10 @@ function reducer(state, action) {
 /////////////////////
 // The React Quiz App
 export default function App() {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   const numQuestions = questions.length;
 
@@ -67,7 +71,7 @@ export default function App() {
         )}
         {/* ////////////////////// */}
         {/* // Starting a New Quiz */}
-        {status === "active" && <Question />}
+        {status === "active" && <Question question={questions[index]} />}
       </Main>
     </div>
   );
