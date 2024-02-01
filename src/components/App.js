@@ -12,6 +12,8 @@ const initialState = {
   // "loading", "error", "ready", "active", "finished"
   status: "loading",
   index: 0,
+  answer: null,
+  points: 0,
 };
 
 function reducer(state, action) {
@@ -32,6 +34,19 @@ function reducer(state, action) {
         ...state,
         status: "active",
       };
+    ///////////////////////
+    // Handling New Answers
+    case "newAnswer":
+      const question = state.questions.at(state.index);
+
+      return {
+        ...state,
+        answer: action.payload,
+        points:
+          action.payload === question.correctOption
+            ? state.points + question.points
+            : state.points,
+      };
 
     default:
       throw new Error("Action unknown");
@@ -41,7 +56,7 @@ function reducer(state, action) {
 /////////////////////
 // The React Quiz App
 export default function App() {
-  const [{ questions, status, index }, dispatch] = useReducer(
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -71,7 +86,13 @@ export default function App() {
         )}
         {/* ////////////////////// */}
         {/* // Starting a New Quiz */}
-        {status === "active" && <Question question={questions[index]} />}
+        {status === "active" && (
+          <Question
+            question={questions[index]}
+            dispatch={dispatch}
+            answer={answer}
+          />
+        )}
       </Main>
     </div>
   );
