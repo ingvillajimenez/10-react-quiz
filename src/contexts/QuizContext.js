@@ -101,7 +101,8 @@ function QuizProvider({ children }) {
   ////////////////////////////////////
   // Loading Questions from a Fake API
   useEffect(function () {
-    fetch("http://localhost:9000/questions")
+    // fetch("http://localhost:9000/questions")
+    fetch("https://one0-react-quiz-api.onrender.com/questions")
       .then((res) => res.json())
       .then((data) => dispatch({ type: "dataReceived", payload: data }))
       .catch((err) => dispatch({ type: "dataFailed" }));
